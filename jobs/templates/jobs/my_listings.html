@@ -1,0 +1,43 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+<section class="my-listings">
+  <header>
+    <h1>My Listings</h1>
+    <p class="lead">Manage the jobs you've posted. Edit or remove listings as needed.</p>
+  </header>
+
+  <main>
+    {% if jobs %}
+      <ul class="listings" aria-live="polite">
+        {% for job in jobs %}
+          <li class="listing-item">
+            <article>
+              <h2><a href="{% url 'jobs:job_detail' job.id %}">{{ job.title }}</a></h2>
+              <p class="company">{{ job.company }} — <span class="location">{{ job.location }}</span></p>
+              <p class="meta">{{ job.get_job_type_display }} • ₦{{ job.salary_min|default:"-" }} - ₦{{ job.salary_max|default:"-" }}</p>
+              <p class="posted">Posted: {{ job.date_posted|date:"M d, Y" }}</p>
+
+              <nav class="listing-actions" aria-label="Listing actions">
+                <a class="btn small" href="{% url 'jobs:job_detail' job.id %}">View</a>
+                <a class="btn small" href="{% url 'jobs:post_job' %}?edit={{ job.id }}">Edit</a>
+                <form method="post" action="{% url 'jobs:my_listings' %}" style="display:inline;">
+                  {% csrf_token %}
+                  <input type="hidden" name="delete_id" value="{{ job.id }}">
+                  <button type="submit" class="btn small danger" onclick="return confirm('Delete this listing?');">Delete</button>
+                </form>
+                <span class="status {% if job.is_active %}active{% else %}inactive{% endif %}">
+                  {% if job.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+              </nav>
+            </article>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <section class="empty">
+        <p>You have no listings yet. <a href="{% url 'jobs:post_job' %}">Post your first job</a>.</p>
+      </section>
+    {% endif %}
+  </main>
+</section>
+{% endblock %}

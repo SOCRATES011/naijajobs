@@ -1,0 +1,44 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+<section class="search-filter">
+  <form method="get" class="search-form">
+    <input name="q" placeholder="Search title or company" value="{{ q }}">
+    <button type="submit">Search</button>
+  </form>
+
+  <div class="categories">
+    {% for cat in categories %}
+      <a class="cat-btn {% if category == cat %}active{% endif %}"
+         href="?category={{ cat }}{% if q %}&q={{ q|urlencode }}{% endif %}">
+        {{ cat }}
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+
+<section class="jobs-grid">
+  <div class="grid">
+    {% for job in jobs %}
+      <article class="job-card" data-job-id="{{ job.id }}">
+        <h3><a href="{% url 'jobs:job_detail' job.id %}">{{ job.title }}</a></h3>
+        <p class="company">{{ job.company }}</p>
+        <p class="meta">{{ job.location }} • ₦{{ job.salary_min|default:"-" }} - ₦{{ job.salary_max|default:"-" }}</p>
+        <span class="badge">{{ job.get_job_type_display }}</span>
+      </article>
+    {% empty %}
+      <p>No jobs found.</p>
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    {% if jobs.has_previous %}
+      <a href="?page={{ jobs.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">Previous</a>
+    {% endif %}
+    <span>Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}</span>
+    {% if jobs.has_next %}
+      <a href="?page={{ jobs.next_page_number }}{% if q %}&q={{ q }}{% endif %}">Next</a>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+<section class="hero">
+  <div class="hero-inner container">
+    <h1>Find your next opportunity in Nigeria</h1>
+    <p>Browse curated jobs from top Nigerian companies.</p>
+    <a class="btn" href="{% url 'jobs:job_list' %}">Browse Jobs</a>
+  </div>
+  <div class="overlay-contrast" aria-hidden="true"></div>
+</section>
+
+
+<section class="featured">
+  <h2>Featured Jobs</h2>
+  <div class="grid">
+    {% for job in featured %}
+      <article class="job-card" data-job-id="{{ job.id }}">
+        <h3><a href="{% url 'jobs:job_detail' job.id %}">{{ job.title }}</a></h3>
+        <p class="company">{{ job.company }}</p>
+        <p class="meta">{{ job.location }} • {{ job.get_job_type_display }}</p>
+      </article>
+    {% empty %}
+      <p>No featured jobs yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

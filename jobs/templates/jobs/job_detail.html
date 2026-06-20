@@ -1,0 +1,16 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+<article class="job-detail">
+  <header>
+    <h1>{{ job.title }}</h1>
+    <p class="company">{{ job.company }} • {{ job.location }}</p>
+    <p class="meta">{{ job.get_job_type_display }} • ₦{{ job.salary_min|default:"-" }} - ₦{{ job.salary_max|default:"-" }}</p>
+  </header>
+  <section class="description">
+    {{ job.description|linebreaks }}
+  </section>
+  <section class="apply">
+    <a class="btn" href="mailto:hr@{{ job.company|slugify }}.com?subject=Application for {{ job.title }}">Apply via Email</a>
+  </section>
+</article>
+{% endblock %}

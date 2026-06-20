@@ -1,0 +1,32 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+<section class="auth login">
+  <header>
+    <h1>Login</h1>
+    <p class="lead">Access your employer dashboard to post and manage jobs.</p>
+  </header>
+
+  <main>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+      {% endif %}
+
+      <div class="form-row">
+        <label for="id_username">Username</label>
+        <input id="id_username" name="username" type="text" required>
+      </div>
+
+      <div class="form-row">
+        <label for="id_password">Password</label>
+        <input id="id_password" name="password" type="password" required>
+      </div>
+
+      <button type="submit" class="btn">Log in</button>
+    </form>
+
+    <p class="muted">Don't have an account? <a href="{% url 'jobs:register' %}">Register</a>.</p>
+  </main>
+</section>
+{% endblock %}

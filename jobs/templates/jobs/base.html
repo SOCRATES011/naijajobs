@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NaijaJobs</title>
+
+  <!-- Google Fonts: Playfair Display for headings, DM Sans for body/UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+   <!-- Favicons and site logo -->
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'jobs/images/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'jobs/images/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'jobs/images/favicon-16x16.png' %}">
+<link rel="shortcut icon" href="{% static 'jobs/images/favicon.ico' %}">
+<meta name="theme-color" content="#1A5C38">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="{% static 'jobs/css/styles.css' %}">
+  <script defer src="{% static 'jobs/js/main.js' %}"></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <!-- <a class="brand" href="{% url 'jobs:homepage' %}">NaijaJobs</a> -->
+      <a class="brand" href="{% url 'jobs:homepage' %}">
+  <img src="{% static 'jobs/images/logo.png' %}" alt="NaijaJobs" width="160" height="40">
+  <!-- <span class="sr-only">NaijaJobs</span> -->
+</a>
+
+      <ul class="nav-links">
+        <li><a href="{% url 'jobs:homepage' %}">Home</a></li>
+        <li><a href="{% url 'jobs:job_list' %}">Jobs</a></li>
+        <li><a href="{% url 'jobs:about' %}">About</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'jobs:post_job' %}">Post a Job</a></li>
+          <li><a href="{% url 'jobs:my_listings' %}">My Listings</a></li>
+          <li><a href="{% url 'jobs:logout' %}">Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'jobs:login' %}">Login</a></li>
+          <li><a href="{% url 'jobs:register' %}">Register</a></li>
+        {% endif %}
+      </ul>
+      <button id="dark-toggle" aria-label="Toggle dark mode">🌓</button>
+    </nav>
+  </header>
+
+  <main>
+    {% if messages %}
+      <section class="messages">
+        {% for message in messages %}
+          <div class="msg {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </section>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; NaijaJobs — Proudly Nigerian</p>
+  </footer>
+</body>
+</html>

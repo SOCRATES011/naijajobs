@@ -1,0 +1,37 @@
+{% extends 'jobs/base.html' %}
+{% block content %}
+<section class="post-job">
+  <h2>Post a Job</h2>
+  <form method="post" id="postJobForm" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Post Job</button>
+  </form>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.getElementById('postJobForm');
+  form.addEventListener('submit', function(e){
+    // simple client-side validation
+    const required = Array.from(form.querySelectorAll('input, textarea, select')).filter(el => el.required || el.name);
+    let ok = true;
+    required.forEach(el => {
+      if (!el.value.trim()) {
+        ok = false;
+        el.classList.add('invalid');
+      } else {
+        el.classList.remove('invalid');
+      }
+    });
+    const salaryMin = form.querySelector('[name="salary_min"]');
+    const salaryMax = form.querySelector('[name="salary_max"]');
+    if (salaryMin && salaryMin.value && isNaN(Number(salaryMin.value))) { ok = false; salaryMin.classList.add('invalid'); }
+    if (salaryMax && salaryMax.value && isNaN(Number(salaryMax.value))) { ok = false; salaryMax.classList.add('invalid'); }
+    if (!ok) {
+      e.preventDefault();
+      alert('Please fix the highlighted fields.');
+    }
+  });
+});
+</script>
+{% endblock %}
