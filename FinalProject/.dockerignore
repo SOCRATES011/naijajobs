@@ -1,0 +1,25 @@
+# Version control and local tooling
+.git/
+.gitignore
+.vscode/
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# Secrets and local-only configuration
+.env
+
+# Local/generated runtime data
+*.sqlite3
+staticfiles/
+media/
+
+# Docker/build artifacts
+Dockerfile*
+.dockerignore

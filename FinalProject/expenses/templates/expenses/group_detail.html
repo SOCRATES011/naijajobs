@@ -1,0 +1,14 @@
+{% extends 'expenses/base.html' %}
+{% block content %}
+  <h2>{{ group.name }}</h2>
+  <p>{{ group.description }}</p>
+  <h3>Expenses</h3>
+  <ul>
+    {% for e in group.expenses.all %}
+      <li>{{ e.title }} — {{ e.amount }} {{ e.currency }}</li>
+    {% empty %}
+      <li>No expenses yet.</li>
+    {% endfor %}
+  </ul>
+  <p><a href="/groups/{{ group.id }}/expenses/new/">Add expense</a></p>
+{% endblock %}
